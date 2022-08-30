@@ -1,13 +1,13 @@
 export const config = {
   // Contract Address ======================================== //
-  contract_address: '0xf07468eAd8cf26c752C676E43C814FEe9c8CF402',
+  contract_address: '0xb7D405BEE01C70A9577316C1B9C2505F146e8842',
   //
   // uncomment the 2 lines above to use local images instead of retrieving images from ipfs for each tweet
   use_local_images: true,
-  local_image_path: './token_images/prefix',
-  // 
+  local_image_path: './token_images/V3 Phunk #',
+  //
   // this is a configuration for the phunk bid demo extension
-  local_bids_image_path: './bids_images/Phunk_',
+  //local_bids_image_path: './bids_images/Phunk_',
   //
   // Fiat Conversion Currency ================================ //
   // Available Options: ====================================== //
@@ -21,8 +21,8 @@ export const config = {
   // <txHash> =========================== The transaction hash //
   // <from> ===================================== From address //
   // <to> ========================================= To address //
-  saleMessage: '🚨 Cryptophunks #<tokenId> was sold for 💰 <ethPrice> (<fiatPrice>)\n\nfrom: <from>\nto: <to>\n\nhttps://etherscan.io/tx/<txHash>\nhttps://opensea.io/assets/0xf07468ead8cf26c752c676e43c814fee9c8cf402/<tokenId>\nhttps://looksrare.org/collections/0xf07468ead8cf26c752c676e43c814fee9c8cf402/<tokenId>\n',
-  bidMessage: '🚨 Cryptophunks #<tokenId> received a bid for 💰 <ethPrice> (<fiatPrice>)\n\nfrom: <from>\n\nhttps://etherscan.io/tx/<txHash>\nhttps://opensea.io/assets/0xf07468ead8cf26c752c676e43c814fee9c8cf402/<tokenId>\nhttps://looksrare.org/collections/0xf07468ead8cf26c752c676e43c814fee9c8cf402/<tokenId>\n',
+  saleMessage: 'V3 Phunk #<tokenId> was sold for <ethPrice> (<fiatPrice>)\n\nfrom: <from>\nto: <to>\n\nhttps://etherscan.io/tx/<txHash>\nhttps://opensea.io/assets/0xb7D405BEE01C70A9577316C1B9C2505F146e8842/<tokenId>\nhttps://x2y2.io/eth/0xb7D405BEE01C70A9577316C1B9C2505F146e8842/<tokenId>\nhttps://looksrare.org/collections/0xb7D405BEE01C70A9577316C1B9C2505F146e8842/<tokenId>\n\n#v3Phunks #Phunks #NFT',
+  bidMessage: 'V3 Phunk #<tokenId> received a bid for <ethPrice> (<fiatPrice>)\n\nfrom: <from>\n\nhttps://etherscan.io/tx/<txHash>\nhttps://opensea.io/assets/0xb7D405BEE01C70A9577316C1B9C2505F146e8842/<tokenId>\nhttps://x2y2.io/eth/0xb7D405BEE01C70A9577316C1B9C2505F146e8842/<tokenId>\nhttps://looksrare.org/collections/0xb7D405BEE01C70A9577316C1B9C2505F146e8842/<tokenId>\n',
   // Prefer ENS over 0x address (Uses more Alchemy requests) = //
   // Available Options: ====================================== //
   // true, false ============================================= //

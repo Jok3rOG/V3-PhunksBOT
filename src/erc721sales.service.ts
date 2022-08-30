@@ -28,7 +28,7 @@ const topics = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3
 
 @Injectable()
 export class Erc721SalesService extends BaseService {
-  
+
   provider = this.getWeb3Provider();
 
   constructor(
@@ -45,15 +45,15 @@ export class Erc721SalesService extends BaseService {
         else if (config.includeFreeMint) this.tweet(res);
       });
     });
-    
+
 
     // this code snippet can be useful to test a specific transaction //
     /*
     const tokenContract = new ethers.Contract(config.contract_address, erc721abi, this.provider);
     let filter = tokenContract.filters.Transfer();
-    const startingBlock = 15220657  
-    tokenContract.queryFilter(filter, 
-      startingBlock, 
+    const startingBlock = 15220657
+    tokenContract.queryFilter(filter,
+      startingBlock,
       startingBlock+1).then(events => {
       for (const event of events) {
         this.getTransactionDetails(event).then((res) => {
@@ -65,7 +65,7 @@ export class Erc721SalesService extends BaseService {
           // If free mint is enabled we can tweet 0 value
           else if (config.includeFreeMint) this.tweet(res);
           // console.log(res);
-        });     
+        });
       }
     });
     */
@@ -74,7 +74,7 @@ export class Erc721SalesService extends BaseService {
   async getTransactionDetails(tx: ethers.Event): Promise<any> {
     // uncomment this to test a specific transaction
     // if (tx.transactionHash !== '0xcee5c725e2234fd0704e1408cdf7f71d881e67f8bf5d6696a98fdd7c0bcf52f3') return;
-    
+
     let tokenId: string;
 
     try {
@@ -82,8 +82,8 @@ export class Erc721SalesService extends BaseService {
       // Get addresses of seller / buyer from topics
       let from = ethers.utils.defaultAbiCoder.decode(['address'], tx?.topics[1])[0];
       let to = ethers.utils.defaultAbiCoder.decode(['address'], tx?.topics[2])[0];
-      
-      // ignore internal transfers to contract, another transfer event will handle this 
+
+      // ignore internal transfers to contract, another transfer event will handle this
       // transaction afterward (the one that'll go to the buyer wallet)
       const code = await this.provider.getCode(to)
       if (code !== '0x') {
@@ -111,33 +111,33 @@ export class Erc721SalesService extends BaseService {
       const receipt: TransactionReceipt = await this.provider.getTransactionReceipt(transactionHash);
 
       // Get token image
-      const imageUrl = config.use_local_images 
-        ? `${config.local_image_path}${tokenId.padStart(4, '0')}.png`
+      const imageUrl = config.use_local_images
+        ? `${config.local_image_path}${tokenId}.png`
         : await this.getTokenMetadata(tokenId);
 
       // Check if LooksRare & parse the event & get the value
       let alternateValue = 0;
       const LR = receipt.logs.map((log: any) => {
-        if (log.address.toLowerCase() === looksRareContractAddress.toLowerCase()) {  
+        if (log.address.toLowerCase() === looksRareContractAddress.toLowerCase()) {
           return looksInterface.parseLog(log);
         }
       }).filter((log: any) => (log?.name === 'TakerAsk' || log?.name === 'TakerBid') &&
         log?.args.tokenId == tokenId);
-      
+
       const NFTX = receipt.logs.map((log: any) => {
         // direct buy from vault
-        if (log.topics[0].toLowerCase() === '0x1cdb5ee3c47e1a706ac452b89698e5e3f2ff4f835ca72dde8936d0f4fcf37d81') {  
+        if (log.topics[0].toLowerCase() === '0x1cdb5ee3c47e1a706ac452b89698e5e3f2ff4f835ca72dde8936d0f4fcf37d81') {
           const relevantData = log.data.substring(2);
           const relevantDataSlice = relevantData.match(/.{1,64}/g);
           return BigInt(`0x${relevantDataSlice[1]}`) / BigInt('1000000000000000');
         } else if (log.topics[0].toLowerCase() === '0x63b13f6307f284441e029836b0c22eb91eb62a7ad555670061157930ce884f4e') {
           const parsedLog = nftxInterface.parseLog(log)
-          
+
           // check that the current transfer is NFTX related
           if (!parsedLog.args.nftIds.filter(n => BigInt(n).toString() === tokenId).length) {
             return
           }
-          
+
           // redeem, find corresponding token bought
           const buys = receipt.logs.filter((log2: any) => log2.topics[0].toLowerCase() === '0xf7735c8cb2a65788ca663fc8415b7c6a66cd6847d58346d8334e8d52a599d3df')
             .map(b => {
@@ -187,13 +187,13 @@ export class Erc721SalesService extends BaseService {
           }
           return amount
         }
-      }).filter(n => n !== undefined)  
-      
+      }).filter(n => n !== undefined)
+
       const OPENSEA_SEAPORT = receipt.logs.map((log: any) => {
         if (log.topics[0].toLowerCase() === '0x9d9af8e38d66c62e2c12f0225249fd9d721c54b83f48d9352c97c6cacdcb6f31') {
           const logDescription = seaportInterface.parseLog(log);
           const matchingOffers = logDescription.args.offer.filter(
-            o => o.identifier.toString() === tokenId || 
+            o => o.identifier.toString() === tokenId ||
             o.identifier.toString() === '0');
           const tokenCount = logDescription.args.offer.length;
           if (matchingOffers.length === 0) {
@@ -210,7 +210,7 @@ export class Erc721SalesService extends BaseService {
           const amount = amounts.reduce((previous,current) => previous + current, BigInt(0))
           return amount / BigInt('1000000000000000') / BigInt(tokenCount)
         }
-      }).filter(n => n !== undefined)      
+      }).filter(n => n !== undefined)
 
       if (LR.length) {
         const weiValue = (LR[0]?.args?.price)?.toString();
