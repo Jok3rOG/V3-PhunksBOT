@@ -25,11 +25,11 @@ set the following variables in the configuration:
 
 ```
   use_local_images: true,
-  local_image_path: './token_images/tokens',
+  local_image_path: './token_images/V3 Phunk #',
 ```
 
 The `local_image_path` will be suffixed with the token number, ie, here, it will seek for an image
-named `./token_images/tokens0034.png` if the token #34 is sold.
+named `./token_images/V3 Phunk #34.png` if the token #34 is sold.
 
 ## Plugins / extendability
 
