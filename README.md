@@ -31,7 +31,7 @@ set the following variables in the configuration:
 The `local_image_path` will be suffixed with the token number, ie, here, it will seek for an image
 named `./token_images/0034.png` if the token #34 is sold.
 
-To download the token images use https://github.com/ruskvm/nft-downloader.
+To download the token images use: https://github.com/ruskvm/OpenSea-NFT-Stealer
 
 ## Plugins / extendability
 
