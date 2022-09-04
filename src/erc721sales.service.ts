@@ -112,7 +112,7 @@ export class Erc721SalesService extends BaseService {
 
       // Get token image
       const imageUrl = config.use_local_images
-        ? `${config.local_image_path}${tokenId}.png`
+        ? `${config.local_image_path}${tokenId.padStart(4, '0')}.png`
         : await this.getTokenMetadata(tokenId);
 
       // Check if LooksRare & parse the event & get the value
